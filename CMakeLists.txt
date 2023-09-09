@@ -1,6 +1,4 @@
 cmake_minimum_required(VERSION 3.13)
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_CXX_STANDARD 20)
 
 # initialize pico-sdk from submodule
 # note: this must happen before project()
@@ -8,6 +6,8 @@ include(pico-sdk/pico_sdk_init.cmake)
 
 # =============================
 project(blink C CXX ASM)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 # basically just a hello world for the RP2040-One board:
 # https://www.waveshare.com/product/rp2040-one.htm
 
@@ -26,7 +26,9 @@ pico_generate_pio_header(rp2040-1-blink ${CMAKE_CURRENT_LIST_DIR}/src/ws2812.pio
 
 # =============================
 
-pico_enable_stdio_usb(hello_world 1)
+# enable usb output, disable uart output
+pico_enable_stdio_usb(rp2040-1-blink 1)
+pico_enable_stdio_uart(rp2040-1-blink 0)
 
 pico_set_program_name(rp2040-1-blink "RP2040_One_Blink")
 pico_set_program_version(rp2040-1-blink "0.1")
