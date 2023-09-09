@@ -14,11 +14,13 @@ set(CMAKE_CXX_STANDARD 20)
 # initialize the Raspberry Pi Pico SDK
 pico_sdk_init()
 
+add_subdirectory(src/receive)
+
 # =============================
 add_executable(irmon
         # ${CMAKE_CURRENT_LIST_DIR}/src/led.c
         # ${CMAKE_CURRENT_LIST_DIR}/src/led.h
-        ${CMAKE_CURRENT_LIST_DIR}/src/main.c
+        ${CMAKE_CURRENT_LIST_DIR}/src/irmon/main.c
 )
 
 # # generate the header file into the source tree as it is included in the RP2040 datasheet
@@ -30,20 +32,16 @@ add_executable(irmon
 pico_enable_stdio_usb(irmon 1)
 pico_enable_stdio_uart(irmon 0)
 
-pico_set_program_name(irmon "RP2040_One_Blink")
-pico_set_program_version(irmon "0.1")
+pico_set_program_name(irmon "InfraredMonitor")
+pico_set_program_version(irmon "0.0.1")
 
 # pull in common dependencies
 target_link_libraries(irmon pico_stdlib)
 
-# pico_enable_stdio_uart(blink 0)
-# pico_enable_stdio_usb(blink 0)
-
-# Add the standard library to the build
-target_link_libraries(irmon pico_stdlib )
-
 # Add any user requested libraries
 target_link_libraries(irmon hardware_pio )
+
+target_link_libraries(irmon nec_receive_library )
 
 pico_add_extra_outputs(irmon)
 

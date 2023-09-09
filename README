@@ -5,7 +5,8 @@
 
 
 
-
+## derived from:
+https://github.com/raspberrypi/pico-examples/tree/master/pio/ir_nec/ir_loopback
 
 ## Direct Cross-Compile:
 
