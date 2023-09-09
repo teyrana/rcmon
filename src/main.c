@@ -2,42 +2,36 @@
 #include <stdlib.h>
 
 #include "pico/stdlib.h"
-#include "hardware/pio.h"
-#include "hardware/clocks.h"
-#include "ws2812.pio.h"
 
-#include "led.h"
+// #include "hardware/pio.h"
+// #include "hardware/clocks.h"
+// #include "ws2812.pio.h"
 
-int main()
-{
+// #include "led.h"
+
+int main(){
+
     //set_sys_clock_48();
     stdio_init_all();
 
-    PIO pio = pio0;
-    int sm = 0;
-    uint offset = pio_add_program(pio, &ws2812_program);
-    uint8_t cnt = 0;
+#ifndef PICO_DEFAULT_LED_PIN
+#warning blink example requires a board with a regular LED
+#else
+    const uint LED_PIN = PICO_DEFAULT_LED_PIN;
 
-    puts("RP2040-Zero WS2812 Test");
+    gpio_init(LED_PIN);
+    gpio_set_dir(LED_PIN, GPIO_OUT);
 
-    ws2812_program_init(pio, sm, offset, 16, 800000, true);
+    while (true) {
 
-    while (1)
-    {
-        for (cnt = 0; cnt < 0xff; cnt++)
-        {
-            put_rgb(cnt, 0xff - cnt, 0);
-            sleep_ms(3);
-        }
-        for (cnt = 0; cnt < 0xff; cnt++)
-        {
-            put_rgb(0xff - cnt, 0, cnt);
-            sleep_ms(3);
-        }
-        for (cnt = 0; cnt < 0xff; cnt++)
-        {
-            put_rgb(0, cnt, 0xff - cnt);
-            sleep_ms(3);
-        }
+        gpio_put(LED_PIN, 1);
+        sleep_ms(1000);
+        gpio_put(LED_PIN, 0);
+        sleep_ms(1000);
+
+        // Print Out Debug
+        printf("Hello, world!\n");
+
     }
+#endif
 }
