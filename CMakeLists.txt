@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 # initialize pico-sdk from submodule
 # note: this must happen before project()
-include(pico-sdk/pico_sdk_init.cmake)
+include(cmake/pico_sdk_import.cmake)
 
 # =============================
 project(irmon C CXX ASM)
@@ -14,34 +14,35 @@ set(CMAKE_CXX_STANDARD 20)
 # initialize the Raspberry Pi Pico SDK
 pico_sdk_init()
 
-add_subdirectory(src/receive)
+add_subdirectory(src/nec/receive)
 
 # =============================
-add_executable(irmon
+set( EXE_NAME irmon )
+add_executable( ${EXE_NAME}
         # ${CMAKE_CURRENT_LIST_DIR}/src/led.c
         # ${CMAKE_CURRENT_LIST_DIR}/src/led.h
         ${CMAKE_CURRENT_LIST_DIR}/src/irmon/main.c
 )
 
-# # generate the header file into the source tree as it is included in the RP2040 datasheet
-# pico_generate_pio_header(irmon ${CMAKE_CURRENT_LIST_DIR}/src/ws2812.pio OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/build )
+include_directories( ${EXE_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/src/ )
+message( STATUS "::INCLUDE:: ${CMAKE_CURRENT_LIST_DIR}/src/" )
 
 # =============================
 
 # enable usb output, disable uart output
-pico_enable_stdio_usb(irmon 1)
-pico_enable_stdio_uart(irmon 0)
+pico_enable_stdio_usb(${EXE_NAME} 1)
+pico_enable_stdio_uart(${EXE_NAME} 0)
 
-pico_set_program_name(irmon "InfraredMonitor")
-pico_set_program_version(irmon "0.0.1")
+pico_set_program_name(${EXE_NAME} "InfraredMonitor")
+pico_set_program_version(${EXE_NAME} "0.0.1")
 
 # pull in common dependencies
-target_link_libraries(irmon pico_stdlib)
+target_link_libraries(${EXE_NAME} pico_stdlib)
 
 # Add any user requested libraries
-target_link_libraries(irmon hardware_pio )
+target_link_libraries(${EXE_NAME} hardware_pio )
 
-target_link_libraries(irmon nec_receive_library )
+target_link_libraries(${EXE_NAME} nec_receive_library )
 
-pico_add_extra_outputs(irmon)
+pico_add_extra_outputs(${EXE_NAME})
 
