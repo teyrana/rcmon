@@ -39,5 +39,16 @@ upload: build/irmon.uf2
 	cp build/irmon.uf2 /media/teyrana/RPI-RP2/
 	sleep 2
 
-cpy:
-	cp tools/i2c-scan.py /media/teyrana/CIRCUITPY/main.py
+deploy-scan:
+	cp tools/i2c-scan.py /media/$USER/CIRCUITPY/main.py
+
+deploy-ping:
+	cp tools/i2c-ping.py /media/${USER}/CIRCUITPY/main.py
+
+deploy-blink-feather:
+	cp tools/feather-rp2040-blink.py /media/$USER/CIRCUITPY/main.py
+
+deploy-blink-one:
+	cp tools/rp2040-one-blink.py /media/$USER/CIRCUITPY/main.py
+
+	

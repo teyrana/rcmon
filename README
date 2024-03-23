@@ -11,6 +11,15 @@ https://github.com/raspberrypi/pico-examples/tree/master/pio/ir_nec/ir_loopback
 
 
 
+## Target Hardware:
+
+1. AdaFruit Feather RP2040 (Verified)
+- https://www.adafruit.com/product/4884
+- https://learn.adafruit.com/adafruit-feather-rp2040-pico
+
+2. Waveshare RP2040 One (not verified)
+- https://www.waveshare.com/product/raspberry-pi/boards-kits/raspberry-pi-pico-cat/rp2040-one.htm
+- https://www.waveshare.com/wiki/RP2040-One
 
 ## Build
 
