@@ -1,3 +1,4 @@
+MAIN=revmon
 
 # ===================================================
 default:build
@@ -11,7 +12,7 @@ config: build/CMakeCache.txt
 build/CMakeCache.txt:
 	cd build && cmake ..
 
-build/irmon.uf2: build
+build/${MAIN}.uf2: build
 
 .PHONY:build
 build: build/CMakeCache.txt $(SRCS)
@@ -35,8 +36,8 @@ reset:
 run: reboot upload
 
 .PHONY:upload
-upload: build/irmon.uf2
-	cp build/irmon.uf2 /media/teyrana/RPI-RP2/
+upload: build/${MAIN}.uf2
+	cp build/${MAIN}.uf2 /media/teyrana/RPI-RP2/
 	sleep 2
 
 deploy-scan:
