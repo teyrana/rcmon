@@ -2,44 +2,45 @@
 #include <stdlib.h>
 
 #include "pico/stdlib.h"
+#include "hardware/pio.h"
+#include "hardware/clocks.h"
+#include "ws2812.pio.h"
 
-// #include "hardware/pio.h"
-// #include "hardware/clocks.h"
-// #include "ws2812.pio.h"
-
-#include "receive.h"
-
-const uint LED_PIN = PICO_DEFAULT_LED_PIN;
-
-void init_activity_led(){
-    // use the led as an activity indicator
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
+void put_rgb(uint8_t red, uint8_t green, uint8_t blue) {
+    const uint32_t mask = (green << 16) | (red << 8) | (blue << 0);
+    pio_sm_put_blocking(pio0, 0, mask << 8u);
 }
 
-int main(){
-
+int main()
+{
     //set_sys_clock_48();
     stdio_init_all();
 
-    init_activity_led();
+    PIO pio = pio0;
+    int sm = 0;
+    uint offset = pio_add_program(pio, &ws2812_program);
+    uint8_t cnt = 0;
 
-    bool led_state = true;
+    puts("RP2040-Zero WS2812 Test");
 
-    //, rx_address, rx_data; // Not Implemented
-    while (true) {
-        gpio_put(LED_PIN, 1);
-        gpio_put(LED_PIN,(64, 0, 0));
-        sleep_ms(500);
-        
-        pixels.fill((0, 64, 0));
-        sleep_ms(500);
+    ws2812_program_init(pio, sm, offset, 16, 800000, true);
 
-        pixels.fill((0, 0, 64));
-        sleep_ms(500);
-
-        gpio_put(LED_PIN, 0);
-        sleep_ms(500);
-
+    while (1)
+    {
+        for (cnt = 0; cnt < 0xff; cnt++)
+        {
+            put_rgb(cnt, 0xff - cnt, 0);
+            sleep_ms(3);
+        }
+        for (cnt = 0; cnt < 0xff; cnt++)
+        {
+            put_rgb(0xff - cnt, 0, cnt);
+            sleep_ms(3);
+        }
+        for (cnt = 0; cnt < 0xff; cnt++)
+        {
+            put_rgb(0, cnt, 0xff - cnt);
+            sleep_ms(3);
+        }
     }
 }

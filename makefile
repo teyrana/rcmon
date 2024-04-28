@@ -26,15 +26,15 @@ build/revmon:
 	cd build && ninja revmon
 
 .PHONY: blink
-blink: build/blink
+blink: build/src/blink/blink.uf2
 
-build/blink:
+build/src/blink/blink.uf2:
 	cd build && ninja blink
 
 .PHONY: scan
-scan: build/i2c_scan
+scan: build/src/scan/i2c_scan
 
-build/i2c_scan:
+build/src/scan/i2c_scan:
 	cd build && ninja i2c_scan
 
 .PHONY:tail
@@ -60,8 +60,8 @@ upload: build/${MAIN}.uf2
 	sleep 2
 
 .PHONY:upload
-upload-blink: build/blink.uf2
-	cp build/blink.uf2 /media/${USER}/RPI-RP2/
+upload-blink: build/src/blink/blink.uf2
+	cp build/src/blink/blink.uf2 /media/${USER}/RPI-RP2/
 	sleep 2
 
 .PHONY:upload
