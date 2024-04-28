@@ -9,7 +9,11 @@ https://github.com/raspberrypi/pico-examples/tree/master/pio/ir_nec/ir_loopback
 (officially support path for Pico SDK)
 
 
-
+# Prerequisites
+1. Pico SDK
+https://github.com/raspberrypi/pico-sdk
+2. picotool
+https://github.com/raspberrypi/picotool
 
 ## Target Hardware:
 
