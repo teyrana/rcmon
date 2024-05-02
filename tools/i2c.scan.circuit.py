@@ -18,16 +18,15 @@ while not i2c.try_lock():
 
 try:
     while True:
-
         print("-" * 40)
         print("I2C SCAN")
         print("-" * 40)
-        while True:
-            # for addr in range(0.256):
+
+        for addr in range(0,256):
             for addr in i2c.scan():
                 print("    - found: ", hex(addr))
 
-            time.sleep(6)
+        time.sleep(6)
 
 
 finally:  # unlock the i2c bus when ctrl-c'ing out of the loop
