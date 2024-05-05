@@ -75,10 +75,12 @@ deploy-scan:
 deploy-ping:
 	cp tools/i2c-ping.py /media/${USER}/CIRCUITPY/main.py
 
+deploy-blink: deploy-blink-feather
+
 deploy-blink-feather:
 	cp tools/feather-rp2040-blink.py /media/${USER}/CIRCUITPY/main.py
 
-deploy-blink-one:
-	cp tools/rp2040-one-blink.py /media/${USER}/CIRCUITPY/main.py
+deploy-blink-rpi-pico:
+	cp tools/rpi-pico-blink.py /media/${USER}/CIRCUITPY/main.py
 
 	
