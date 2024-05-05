@@ -69,18 +69,23 @@ upload-scan: build/scan.uf2
 	cp build/scan.uf2 /media/${USER}/RPI-RP2/
 	sleep 2
 
+# circuitpy-setup:
+# 	mkdir -p /media/${USER}/CIRCUITPY/lib/
+# 	unzip extern/adafruit-circuitpython-bundle-*zip  -d extern/
+#   cp -r extern/adafruit-circuitpython-bundle-9.x-mpy-20240503/lib/* /media/${USER}/CIRCUITPY/lib/
+
 deploy-scan:
-	cp tools/i2c-scan.py /media/${USER}/CIRCUITPY/main.py
+	cp tools/i2c-scan.py /media/${USER}/CIRCUITPY/code.py
 
 deploy-ping:
-	cp tools/i2c-ping.py /media/${USER}/CIRCUITPY/main.py
+	cp tools/i2c-ping.py /media/${USER}/CIRCUITPY/code.py
 
 deploy-blink: deploy-blink-feather
 
 deploy-blink-feather:
-	cp tools/feather-rp2040-blink.py /media/${USER}/CIRCUITPY/main.py
+	cp tools/feather-rp2040-blink.py /media/${USER}/CIRCUITPY/code.py
 
 deploy-blink-rpi-pico:
-	cp tools/rpi-pico-blink.py /media/${USER}/CIRCUITPY/main.py
+	cp tools/rpi-pico-blink.py /media/${USER}/CIRCUITPY/code.py
 
 	
