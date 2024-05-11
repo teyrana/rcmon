@@ -1,5 +1,13 @@
 MAIN=i2c_scan
+
+# Custom path -- probably doesn't work on your machine ;)
 PICOTOOL=~/project/picotool/build/picotool 
+
+# # PICO_BOARD: The board name being built for
+# ## default:
+#PICO_BOARD=pico
+## Adafruit Feather rp2040:
+PICO_BOARD=adafruit_feather_rp2040
 
 # ===================================================
 default:build
@@ -7,13 +15,13 @@ default:build
 clean:
 	rm -rf build/*
 
-.PHONY:config
-config: build/CMakeCache.txt
-
-build/CMakeCache.txt:
+.PHONY: config
+config: CMakeLists.txt
 	cd build && cmake .. -GNinja
 
 build/${MAIN}.uf2: build
+
+build/CMakeCache.txt: config
 
 .PHONY:build
 build: build/CMakeCache.txt $(SRCS)

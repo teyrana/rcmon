@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.5)
 
 # initialize pico-sdk from submodule
 # note: this must happen before project()
@@ -21,9 +21,18 @@ set(CMAKE_CXX_STANDARD 20)
 # initialize the Raspberry Pi Pico SDK
 pico_sdk_init()
 
-
+# Enable #include'ing libraries:
 # =============================
-add_subdirectory(src/blink)
+include_directories(${CMAKE_SOURCE_DIR}/lib/)
+
+# Build Libraries
+add_subdirectory(${CMAKE_SOURCE_DIR}/lib/led/)
+# add_subdirectory(${CMAKE_SOURCE_DIR}/lib/as5600/)
+
+
+# Build Tools:
+# =============================
+add_subdirectory(${CMAKE_SOURCE_DIR}/tools/blink)
 # add_subdirectory(src/mon)
 # add_subdirectory(src/scan)
 
