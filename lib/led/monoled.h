@@ -1,3 +1,5 @@
+#pragma once
+
 #include "pico/stdlib.h"
 
 void mono_led_init();

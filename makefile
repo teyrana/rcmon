@@ -17,7 +17,7 @@ clean:
 
 .PHONY: config
 config: CMakeLists.txt
-	cd build && cmake .. -GNinja
+	cd build && cmake .. -GNinja -DPICO_BOARD=${PICO_BOARD}
 
 build/${MAIN}.uf2: build
 
@@ -69,7 +69,7 @@ upload: build/${MAIN}.uf2
 
 .PHONY:upload
 upload-blink: build/src/blink/blink.uf2
-	cp build/src/blink/blink.uf2 /media/${USER}/RPI-RP2/
+	cp build/tools/blink/blink.uf2 /media/${USER}/RPI-RP2/
 	sleep 2
 
 .PHONY:upload
