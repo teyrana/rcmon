@@ -28,7 +28,7 @@ include_directories(${CMAKE_SOURCE_DIR}/lib/)
 
 # Build Libraries
 add_subdirectory(${CMAKE_SOURCE_DIR}/lib/led/)
-# add_subdirectory(${CMAKE_SOURCE_DIR}/lib/as5600/)
+add_subdirectory(${CMAKE_SOURCE_DIR}/lib/as5600/)
 
 
 # Build Tools:
