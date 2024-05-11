@@ -37,8 +37,8 @@ scan: build/src/scan/i2c_scan
 build/src/scan/i2c_scan:
 	cd build && ninja i2c_scan
 
-.PHONY:tail
-tail: 
+.PHONY: connect
+connect:
 	stty -F /dev/ttyACM0 115200
 	screen /dev/ttyACM0 
 
@@ -88,4 +88,3 @@ deploy-blink-feather:
 deploy-blink-rpi-pico:
 	cp tools/rpi-pico-blink.py /media/${USER}/CIRCUITPY/code.py
 
-	
