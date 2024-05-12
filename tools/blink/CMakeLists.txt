@@ -5,7 +5,7 @@ add_executable( ${EXE_NAME}
 )
 
 # pull in common dependencies
-target_link_libraries( ${EXE_NAME} pico_stdlib)
+target_link_libraries( ${EXE_NAME} pico_stdlib )
 
 # Add any user requested libraries
 target_link_libraries( ${EXE_NAME} hardware_pio )
@@ -16,7 +16,7 @@ target_link_libraries( ${EXE_NAME}
         rgbled )
 
 pico_set_program_name(${EXE_NAME} "Blink")
-pico_set_program_version(${EXE_NAME} "0.1.0")
+pico_set_program_version(${EXE_NAME} "1.0.0")
 
 # enable usb output
 pico_enable_stdio_usb(${EXE_NAME} 1)

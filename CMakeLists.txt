@@ -21,7 +21,8 @@ set(CMAKE_CXX_STANDARD 20)
 # initialize the Raspberry Pi Pico SDK
 pico_sdk_init()
 
-# Enable #include'ing libraries:
+
+# include our libraries:
 # =============================
 include_directories(${CMAKE_SOURCE_DIR}/lib/)
 

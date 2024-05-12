@@ -34,9 +34,9 @@ build/revmon:
 	cd build && ninja revmon
 
 .PHONY: blink
-blink: build/src/blink/blink.uf2
+blink: build/tools/blink/blink.uf2
 
-build/src/blink/blink.uf2:
+build/tools/blink/blink.uf2:
 	cd build && ninja blink
 
 .PHONY: scan

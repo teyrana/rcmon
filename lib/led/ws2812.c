@@ -11,13 +11,15 @@ pio_hw_t* ws2812_init( pio_hw_t* target ){
 }
 
 void status_set_ok(){
-    ws2812_put_mask( 0x00FF00 << 8u );
+    ws2812_put_mask( 0x008100 << 8u );
 }
+
 void status_set_caution(){
-    ws2812_put_mask( 0xFFEE00 << 8u );
+    ws2812_put_mask( 0x816100 << 8u );
 }
+
 void status_set_error(){
-    ws2812_put_mask( 0xFF0000 << 8u );
+    ws2812_put_mask( 0x810000 << 8u );
 }
 
 void ws2812_put_rgb( uint8_t red, uint8_t green, uint8_t blue) {
