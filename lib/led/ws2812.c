@@ -15,11 +15,11 @@ void status_set_ok(){
 }
 
 void status_set_caution(){
-    ws2812_put_mask( 0x816100 << 8u );
+    ws2812_put_mask( 0xF14111 << 8u );
 }
 
 void status_set_error(){
-    ws2812_put_mask( 0x810000 << 8u );
+    ws2812_put_mask( 0xF10000 << 8u );
 }
 
 void ws2812_put_rgb( uint8_t red, uint8_t green, uint8_t blue) {
