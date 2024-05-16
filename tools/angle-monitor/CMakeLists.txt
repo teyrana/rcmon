@@ -1,24 +1,23 @@
 set( EXE_NAME angle-monitor )
 
 add_executable( ${EXE_NAME}
-        ${CMAKE_CURRENT_SOURCE_DIR}/main.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 
-# pull in common dependencies
+
 target_link_libraries( ${EXE_NAME}
+        # Common libraries
         pico_stdlib
-)
 
-# Add any user requested libraries
-target_link_libraries( ${EXE_NAME}
+        # Pico Hardware libraries
         hardware_pio
         hardware_i2c
 )
 
-# Add any project internal libraries
+# Project internal libraries
 target_link_libraries( ${EXE_NAME}
-        monoled 
-        rgbled
+        as5600
+        led
 )
 
 pico_set_program_name(${EXE_NAME} "AngleMon")
@@ -30,6 +29,6 @@ pico_enable_stdio_usb(${EXE_NAME} 1)
 # disable uart output
 pico_enable_stdio_uart(${EXE_NAME} 0)
 
-# need this to generate the .uf2 binariy output
+# create map,bin,hex,uf2 files in addition to ELF.
 pico_add_extra_outputs(${EXE_NAME})
 

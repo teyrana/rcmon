@@ -1,7 +1,7 @@
 MAIN=i2c_scan
 
 # Custom path -- probably doesn't work on your machine ;)
-PICOTOOL=~/project/picotool/build/picotool 
+PICOTOOL=${PICOTOOL_PATH}/picotool 
 
 # # PICO_BOARD: The board name being built for
 # ## default:
@@ -27,11 +27,10 @@ build/CMakeCache.txt: config
 build: build/CMakeCache.txt $(SRCS)
 	cd build && ninja
 
-
 .PHONY: angmon
-angmon: build/tools/angmon/angle-monitor.uf2
+angmon: build/tools/angle-monitor/angle-monitor.uf2
 
-build/tools/angmon/angmon.uf2:
+build/tools/angle-monitor/angle-monitor.uf2:
 	cd build && ninja angle-monitor
 
 .PHONY: revmon
@@ -61,7 +60,7 @@ reboot:reset
 
 .PHONY:reset
 reset:
-	$(eval ADDR:=$(shell lsusb | grep 'Raspberry Pi RP' | cut -c16-18))
+	$(eval ADDR:=$(shell lsusb | grep 'Raspberry Pi Pico' | cut -c16-18))
 	@echo ":> Rebooting device at Address:${ADDR}"
 	${PICOTOOL} reboot --usb --bus 3 --address ${ADDR} --force
 	sleep 3
@@ -77,9 +76,11 @@ upload-blink: build/tools/blink/blink.uf2
 	cp build/tools/blink/blink.uf2 /media/${USER}/RPI-RP2/
 	sleep 2
 
+.PHONY: upmon
+
 .PHONY: upload-angle-monitor
-upload-angle-monitor: build/tools/angmon/angmon.uf2
-	cp build/tools/monitor.uf2 /media/${USER}/RPI-RP2/
+upload-angle-monitor: build/tools/angle-monitor/angle-monitor.uf2 
+	cp build/tools/angle-monitor/angle-monitor.uf2 /media/${USER}/RPI-RP2/
 	sleep 2
 
 # circuitpy-setup:

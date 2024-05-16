@@ -11,7 +11,7 @@ target_link_libraries( ${EXE_NAME} pico_stdlib )
 target_link_libraries( ${EXE_NAME} hardware_pio )
 
 # Add any project internal libraries
-target_link_libraries( ${EXE_NAME} monoled rgbled )
+target_link_libraries( ${EXE_NAME} led )
 
 pico_set_program_name(${EXE_NAME} "Blink")
 pico_set_program_version(${EXE_NAME} "1.0.0")

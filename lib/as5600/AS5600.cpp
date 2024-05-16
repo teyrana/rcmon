@@ -34,13 +34,16 @@ bool AS5600::configure(uint16_t value){
     return false;
 }
 
+bool AS5600::good() const {
 
-uint16_t AS5600::configure(){
-//   uint16_t value = readReg2(AS5600_MEMORY_ADDRESS_CONFIGURE_LOW) & 0x3FFF;
-    // return value;
-    return 0;
+    // bool AS5600::isConnected()
+    // {
+    //   _wire->beginTransmission(_address);
+    //   return ( _wire->endTransmission() == 0);
+    // }
+
+    return true;
 }
-
 
 // uint8_t AS5600::readReg(uint8_t reg)
 // {
@@ -63,63 +66,80 @@ uint16_t AS5600::configure(){
 //   if (_wire->endTransmission() != 0)
 //   {
 //     _error = AS5600_ERROR_I2C_READ_2;
-//     return 0;
-//   }
-//   uint8_t n = _wire->requestFrom(_address, (uint8_t)2);
-//   if (n != 2)
-//   {
-//     _error = AS5600_ERROR_I2C_READ_3;
-//     return 0;
-//   }
-//   uint16_t _data = _wire->read();
-//   _data <<= 8;
-//   _data += _wire->read();
-//   return _data;
-// }
+//  
 
-int AS5600::read( uint8_t mem_addr ){
-    write_buffer[0] = mem_addr;
+
+bool AS5600::read( uint8_t register_address ){
+    write_buffer[0] = register_address;
+    write_buffer[1] = 0;
+    write_buffer[2] = 0;
+    write_buffer[3] = 0;
     const size_t write_count = 1;
+
+    // DEBUG
+    // printf("    >>%02x %02x %02x %02x \n", 
+    //         write_buffer[0], write_buffer[1], write_buffer[2], write_buffer[3]);
 
     i2c_write_blocking(i2c_default, i2c_addr, write_buffer.data(), write_count, true);
 
     const int read_ok = i2c_read_blocking(bus, i2c_addr, read_buffer.data(), read_buffer.size(), false);
 
-    if( read_ok < 0 ){
-        // print error
+    if( PICO_ERROR_GENERIC == read_ok ){
+        printf("    ::read-error-generic: %d \n", read_ok );
+        return false;
+    }else if( read_ok < 0 ){
+        printf("    ::read-error-other: %d \n", read_ok );
+        return false;
     }
 
-    return read_ok;
+    // // DEBUG
+    // printf("    << [read-ok] %02x %02x %02x %02x  %02x %02x %02x %02x\n",
+    //         read_buffer[0], read_buffer[1], read_buffer[2], read_buffer[3],
+    //         read_buffer[1], read_buffer[2], read_buffer[3], read_buffer[4]);
+    
+    return true;
 }
 
+uint16_t AS5600::read_config(){
+    const int read_ok = read(AS5600_REGISTER_ADDRESS_CONFIGURE_LOW);
 
-// uint8_t AS5600::writeReg(uint8_t reg, uint8_t value)
-// {
-//   _error = AS5600_OK;
-//   _wire->beginTransmission(_address);
-//   _wire->write(reg);
-//   _wire->write(value);
-//   if (_wire->endTransmission() != 0)
-//   {
-//     _error = AS5600_ERROR_I2C_WRITE_0;
-//   }
-//   return _error;
-// }
+    if( 0 < read_ok ){
+        return ((read_buffer[0]<<8) + read_buffer[1]) & 0x3FFF;
+    }
 
+    return 0;
+}
 
-// uint8_t AS5600::writeReg2(uint8_t reg, uint16_t value)
-// {
-//   _error = AS5600_OK;
-//   _wire->beginTransmission(_address);
-//   _wire->write(reg);
-//   _wire->write(value >> 8);
-//   _wire->write(value & 0xFF);
-//   if (_wire->endTransmission() != 0)
-//   {
-//     _error = AS5600_ERROR_I2C_WRITE_0;
-//   }
-//   return _error;
-// }
+uint16_t AS5600::read_raw_angle(){
+    const int read_ok = read(AS5600_REGISTER_ADDRESS_RAW_ANGLE);
+
+    if( 0 < read_ok ){
+        return ((read_buffer[0]<<8) + read_buffer[1]) & 0x0FFF;
+    }
+
+    return 0;
+}
+
+uint16_t AS5600::read_scale_angle(){
+    const int read_ok = read(AS5600_REGISTER_ADDRESS_SCALE_ANGLE);
+
+    if( 0 < read_ok ){
+        return ((read_buffer[0]<<8) + read_buffer[1]) & 0x0FFF;
+    }
+
+    return 0;
+}
+
+uint8_t AS5600::read_status(){
+   const int read_ok = read(AS5600_REGISTER_ADDRESS_STATUS);
+
+    if( 0 < read_ok ){
+        return read_buffer[0];
+    }
+
+    return 0;
+}
+
 
 int AS5600::write( uint8_t mem_addr, uint8_t data ){
     write_buffer[0] = mem_addr;
@@ -130,31 +150,6 @@ int AS5600::write( uint8_t mem_addr, uint8_t data ){
     return write_ok;
 }
 
-// bool AS5600::begin(uint8_t directionPin)
-// {
-//   _directionPin = directionPin;
-//   if (_directionPin != AS5600_SW_DIRECTION_PIN)
-//   {
-//     pinMode(_directionPin, OUTPUT);
-//   }
-//   setDirection(AS5600_CLOCK_WISE);
-
-//   if (! isConnected()) return false;
-//   return true;
-// }
-
-
-// bool AS5600::isConnected()
-// {
-//   _wire->beginTransmission(_address);
-//   return ( _wire->endTransmission() == 0);
-// }
-
-
-// uint8_t AS5600::getAddress()
-// {
-//   return _address;
-// }
 
 
 // /////////////////////////////////////////////////////////

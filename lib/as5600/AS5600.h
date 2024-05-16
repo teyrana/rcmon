@@ -94,8 +94,13 @@ public:
     } AS5600_POWER_MODE;
 
     
-    static constexpr uint8_t AS5600_MEMORY_ADDRESS_CONFIGURE_LOW     = 0x07;
-    static constexpr uint8_t AS5600_MEMORY_ADDRESS_CONFIGURE_HIGH    = 0x08;
+    static constexpr uint8_t AS5600_REGISTER_ADDRESS_CONFIGURE_LOW     = 0x07;
+    static constexpr uint8_t AS5600_REGISTER_ADDRESS_CONFIGURE_HIGH    = 0x08;
+
+    static constexpr uint8_t AS5600_REGISTER_ADDRESS_RAW_ANGLE         = 0x0C;
+    static constexpr uint8_t AS5600_REGISTER_ADDRESS_SCALE_ANGLE       = 0x0E;
+    static constexpr uint8_t AS5600_REGISTER_ADDRESS_STATUS            = 0x0B;
+
 
 // -const uint8_t AS5600_CONF_POWER_MODE    = 0x03;
 // -const uint8_t AS5600_CONF_HYSTERESIS    = 0x0C;
@@ -104,7 +109,6 @@ public:
 // -const uint8_t AS5600_CONF_SLOW_FILTER   = 0x03;
 // -const uint8_t AS5600_CONF_FAST_FILTER   = 0x1C;
 // -const uint8_t AS5600_CONF_WATCH_DOG     = 0x20;
-
 
     enum {
         AS5600_PWM_115 = 0,
@@ -122,7 +126,16 @@ public:
     // bool set_power_mode(bool);
     // bool get_power_mode();
 
-    bool connected();
+    bool good() const;
+
+
+    uint16_t read_config();
+
+    uint16_t read_raw_angle();
+
+    uint16_t read_scale_angle();
+
+    uint8_t read_status();
 
 public:
     std::array<uint8_t,8> read_buffer;
@@ -130,7 +143,7 @@ public:
     std::array<uint8_t,8> write_buffer;
 
 private:
-    int read( uint8_t mem_addr );
+    bool read( uint8_t register_address );
 
     int write( uint8_t maddr, uint8_t data );
 private:
