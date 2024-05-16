@@ -34,7 +34,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/lib/as5600/)
 # Build Tools:
 # =============================
 add_subdirectory(${CMAKE_SOURCE_DIR}/tools/blink)
-# add_subdirectory(src/mon)
+add_subdirectory(${CMAKE_SOURCE_DIR}/tools/angle-monitor)
 # add_subdirectory(src/scan)
 
 

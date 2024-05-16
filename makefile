@@ -27,8 +27,15 @@ build/CMakeCache.txt: config
 build: build/CMakeCache.txt $(SRCS)
 	cd build && ninja
 
-.PHONY:mon
-mon: build/revmon
+
+.PHONY: angmon
+angmon: build/tools/angmon/angle-monitor.uf2
+
+build/tools/angmon/angmon.uf2:
+	cd build && ninja angle-monitor
+
+.PHONY: revmon
+revmon: build/revmon
 
 build/revmon:
 	cd build && ninja revmon
@@ -62,19 +69,17 @@ reset:
 .PHONY:run
 run: reboot upload
 
-.PHONY:upload
-upload: build/${MAIN}.uf2
-	cp build/${MAIN}.uf2 /media/${USER}/RPI-RP2/
-	sleep 2
+.PHONY: upload
+upload: upload-angle-monitor
 
-.PHONY:upload
-upload-blink: build/src/blink/blink.uf2
+.PHONY: upload-blink
+upload-blink: build/tools/blink/blink.uf2
 	cp build/tools/blink/blink.uf2 /media/${USER}/RPI-RP2/
 	sleep 2
 
-.PHONY:upload
-upload-scan: build/scan.uf2
-	cp build/scan.uf2 /media/${USER}/RPI-RP2/
+.PHONY: upload-angle-monitor
+upload-angle-monitor: build/tools/angmon/angmon.uf2
+	cp build/tools/monitor.uf2 /media/${USER}/RPI-RP2/
 	sleep 2
 
 # circuitpy-setup:
